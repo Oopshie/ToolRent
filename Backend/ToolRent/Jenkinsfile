@@ -25,7 +25,7 @@ pipeline {
 
         stage("Build and Push Docker Image"){
             steps{
-                dir("Tingeso"){
+                dir("Backend/ToolRent"){
                     script{
                         withDockerRegistry(credentialsId: 'docker-credentials'){
                             bat "docker build -t oopshie/toolrent-backend ."
