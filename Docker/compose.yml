@@ -1,0 +1,119 @@
+version: "3.8"
+
+services:
+  
+  # =========================
+  # FRONTENDS
+  # =========================
+  frontend1:
+    image: oopshie/toolrent-frontend:latest
+    depends_on:
+      - nginx-backend
+    networks: [app-network]
+
+
+  frontend2:
+    image: oopshie/toolrent-frontend:latest
+    depends_on:
+      - nginx-backend
+
+    networks: [app-network]
+
+
+  frontend3:
+    image: oopshie/toolrent-frontend:latest
+    depends_on:
+      - nginx-backend
+
+    networks: [app-network]
+
+  nginx-frontend:
+    image: nginx:latest
+    ports:
+      - "8070:80"
+    volumes:
+      - ./nginx-frontend.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - frontend1
+      - frontend2
+      - frontend3
+    networks: [app-network]
+
+  # =========================
+  # BACKENDS
+  # =========================
+  backend1:
+    image: oopshie/toolrent-backend:latest
+    environment:
+      - DB_HOST=postgres
+      - spring.datasource.url=jdbc:postgresql://host.docker.internal:5432/ToolRent
+      - spring.datasource.username=postgres
+      - spring.datasource.password=1234
+      - spring.security.oauth2.client.provider.keycloak.issuer-uri=http://host.docker.internal:9090/realms/sisph-realm
+      - spring.security.oauth2.resourceserver.jwt.issuer-uri=http://localhost:9090/realms/sisph-realm
+      - spring.security.oauth2.resourceserver.jwt.jwk-set-uri=http://host.docker.internal:9090/realms/sisph-realm/protocol/openid-connect/certs
+      - spring.security.oauth2.client.registration.keycloak.client-id=sisph-backend
+      - spring.security.oauth2.client.registration.keycloak.client-secret=2JfRT9VbAuqU0czxK5yCRcg1KeOCuqEK
+      - spring.security.oauth2.client.registration.keycloak.scope=openid,profile,email
+      - server.port=8090
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks: [app-network]
+    
+
+  backend2:
+    image: oopshie/toolrent-backend:latest
+    environment:
+      - DB_HOST=postgres
+      - spring.datasource.url=jdbc:postgresql://host.docker.internal:5432/ToolRent
+      - spring.datasource.username=postgres
+      - spring.datasource.password=1234
+      - spring.security.oauth2.client.provider.keycloak.issuer-uri=http://host.docker.internal:9090/realms/sisph-realm
+      - spring.security.oauth2.resourceserver.jwt.issuer-uri=http://localhost:9090/realms/sisph-realm
+      - spring.security.oauth2.resourceserver.jwt.jwk-set-uri=http://host.docker.internal:9090/realms/sisph-realm/protocol/openid-connect/certs
+      - spring.security.oauth2.client.registration.keycloak.client-id=sisph-backend
+      - spring.security.oauth2.client.registration.keycloak.client-secret=2JfRT9VbAuqU0czxK5yCRcg1KeOCuqEK
+      - spring.security.oauth2.client.registration.keycloak.scope=openid,profile,email
+      - server.port=8090
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks: [app-network]
+    
+
+
+  backend3:
+    image: oopshie/toolrent-backend:latest
+    environment:
+      - DB_HOST=postgres
+      - spring.datasource.url=jdbc:postgresql://host.docker.internal:5432/ToolRent
+      - spring.datasource.username=postgres
+      - spring.datasource.password=1234
+      - spring.security.oauth2.client.provider.keycloak.issuer-uri=http://host.docker.internal:9090/realms/sisph-realm
+      - spring.security.oauth2.resourceserver.jwt.issuer-uri=http://localhost:9090/realms/sisph-realm
+      - spring.security.oauth2.resourceserver.jwt.jwk-set-uri=http://host.docker.internal:9090/realms/sisph-realm/protocol/openid-connect/certs
+      - spring.security.oauth2.client.registration.keycloak.client-id=sisph-backend
+      - spring.security.oauth2.client.registration.keycloak.client-secret=2JfRT9VbAuqU0czxK5yCRcg1KeOCuqEK
+      - spring.security.oauth2.client.registration.keycloak.scope=openid,profile,email
+      - server.port=8090
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks: [app-network]
+    
+
+  nginx-backend:
+    image: nginx:latest
+    ports:
+      - "8090:8090"
+    volumes:
+      - ./nginx-backend.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - backend1
+      - backend2
+      - backend3
+    networks: [app-network]
+
+networks:
+  app-network:
+    name: app-network
+    driver: bridge
+
