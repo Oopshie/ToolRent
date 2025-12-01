@@ -2,6 +2,7 @@ package com.Tingeso.ToolRent.Controllers;
 
 import com.Tingeso.ToolRent.DTOs.RentDTO;
 import com.Tingeso.ToolRent.Services.RentService;
+import com.Tingeso.ToolRent.Entities.RentEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -9,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -63,6 +65,22 @@ public class RentController {
 
         return ResponseEntity.ok(rentService.returnTool(rentId, damaged, irreparable));
     }
+
+    @GetMapping("/report/active")
+    public List<RentEntity> getAllRentsForReport() {
+        return rentService.getAll();
+    }
+
+    @GetMapping("/report/delayed")
+    public List<RentEntity> getAllRentsForDelayedReport() {
+        return rentService.getAll();
+    }
+
+    @GetMapping("/report/tools")
+    public List<RentEntity> getAllRentsForToolsReport() {
+        return rentService.getAll();
+    }
+
 
 
 }

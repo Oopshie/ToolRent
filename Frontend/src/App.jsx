@@ -9,6 +9,9 @@ import RentPage from './components/RentPage'
 import RentList from './components/RentsList'
 import RatePage from './components/RatePage'
 import KardexList from './components/KardexList'
+import ActiveRentsReport from './components/ActiveRentsReport'
+import LateClientsReport from './components/LateClientsReport'
+import ToolRankingReport from './components/ToolRankingReport'
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
 import { useKeycloak } from '@react-keycloak/web'
 
@@ -92,8 +95,20 @@ return (
             path="/kardex"
             element={<PrivateRoute element={<KardexList />} rolesAllowed={["ADMIN"]} />}
           />
+  
+          <Route 
+            path="/reports/active-rents" 
+            element={<PrivateRoute element={<ActiveRentsReport />} rolesAllowed={["ADMIN", "EMPLOYEE"]} />}
+          />
+          <Route 
+            path="/reports/late-clients" 
+            element={<PrivateRoute element={<LateClientsReport />} rolesAllowed={["ADMIN", "EMPLOYEE"]} />}
+          />
+          <Route 
+            path="/reports/tool-ranking" 
+            element={<PrivateRoute element={<ToolRankingReport />} rolesAllowed={["ADMIN", "EMPLOYEE"]} />}
+          />
 
-          
         </Routes>
 
       </div>

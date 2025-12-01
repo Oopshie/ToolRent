@@ -66,6 +66,22 @@ export default function SideMenu({ open, toggleDrawer }) {
                     </ListItemButton>
                 </>
                 )}
+
+                <Divider />
+                <ListItemButton onClick={() => navigate("/reports/active-rents")}>
+                    <ListItemText primary="Reporte Rentas Activas" />
+                </ListItemButton>
+
+                <Divider />
+                <ListItemButton onClick={() => navigate("/reports/late-clients")}>
+                    <ListItemText primary="Reporte Clientes con Atraso" />
+                </ListItemButton>
+
+                <Divider />
+                <ListItemButton onClick={() => navigate("/reports/tool-ranking")}>
+                    <ListItemText primary="Reporte Ranking de Herramientas" />
+                </ListItemButton>
+
             </List>
 
             <Divider />

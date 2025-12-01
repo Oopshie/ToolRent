@@ -162,7 +162,6 @@ public class RentService {
         return rentalCost + lateFee + replacementCost;
     }
 
-
     public RentDTO returnTool(Long rentId, boolean damaged, boolean irreparable) {
 
         RentEntity rent = rentRepository.findById(rentId)
@@ -241,7 +240,9 @@ public class RentService {
         );
     }
 
-
+    public List<RentEntity>getAll() {
+        return rentRepository.findAll();
+    }
 
 
 

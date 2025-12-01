@@ -2,8 +2,6 @@ package com.Tingeso.ToolRent.Controllers;
 
 import com.Tingeso.ToolRent.Entities.ToolEntity;
 import com.Tingeso.ToolRent.Services.ToolService;
-import com.Tingeso.ToolRent.DTOs.UpdateValueRequestDTO;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -135,8 +133,6 @@ public class ToolController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
-
 
     @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping("/{id}/deactivate")
