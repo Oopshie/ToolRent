@@ -25,7 +25,6 @@ public class RateController {
         return ResponseEntity.ok(rate);
     }
 
-    // Crear nueva tarifa
     @PostMapping("/")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<RateEntity> createRate(@RequestBody Map<String, Integer> body) {

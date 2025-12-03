@@ -57,8 +57,6 @@ const AddEditClient = () => {
         }
     }, [id]);
 
-    // ==== ESTILOS COPIADOS DESDE AddEditTool ====
-
     const inputStyle = {
         width: "100%",
         padding: "12px",

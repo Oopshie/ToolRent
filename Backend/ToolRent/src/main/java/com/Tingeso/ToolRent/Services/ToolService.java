@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.Normalizer;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ToolService {
@@ -49,9 +50,25 @@ public class ToolService {
             .orElseThrow(() -> new RuntimeException("Tool not found with id: " + id));
     }
 
-    public ArrayList<ToolEntity> getAllTools(){
+    public List<ToolEntity> getAllTools() {
 
-        return (ArrayList<ToolEntity>)toolRepository.findAll();
+        List<ToolEntity> tools = toolRepository.findAll();
+
+        // contar cuántas hay disponibles POR NOMBRE
+        Map<String, Long> disponiblesMap = tools.stream()
+                .filter(t -> t.getStatus() == 1)
+                .collect(Collectors.groupingBy(
+                        ToolEntity::getName,
+                        Collectors.counting()
+                ));
+
+        // insertar ese stock en cada herramienta
+        for (ToolEntity t : tools) {
+            long stock = disponiblesMap.getOrDefault(t.getName(), 0L);
+            t.setStock((int) stock);
+        }
+
+        return tools;
     }
 
     public ArrayList<ToolEntity> getToolsByCategory(String category){
@@ -78,7 +95,6 @@ public class ToolService {
 
         return toolRepository.save(existing);
     }
-
 
     @Transactional
     public void updateToolGroupValues(String name, String category, Integer newValue) {
@@ -139,7 +155,6 @@ public class ToolService {
         return saved;
     }
 
-
     public ToolEntity deactivateTool(Long id){
         ToolEntity tool = toolRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Herramienta no encontrada con id: " + id));
@@ -153,14 +168,14 @@ public class ToolService {
 
     public Map<String, Object> checkDuplicateAndSuggestPrice(@NotNull String name, @NotNull String category) {
         Map<String, Object> response = new HashMap<>();
-        
+
         // Normalizar entrada (como lo hace addTool)
         String normalizedName = name.trim().toLowerCase();
         String normalizedCategory = category.trim().toLowerCase();
-        
+
         // Buscar herramientas con el mismo nombre y categoría
         List<ToolEntity> existingTools = toolRepository.findByNameAndCategory(normalizedName, normalizedCategory);
-        
+
         if (!existingTools.isEmpty()) {
             // Si existe, usar el precio de reposición de la primera coincidencia
             ToolEntity existingTool = existingTools.get(0);
@@ -173,7 +188,7 @@ public class ToolService {
             response.put("suggestedPrice", null);
             response.put("message", "No se encontraron herramientas similares.");
         }
-        
+
         return response;
     }
 
@@ -193,5 +208,17 @@ public class ToolService {
 
         toolRepository.saveAll(tools);
     }
+
+
+    private Map<String, Long> calcularDisponiblesPorNombre(List<ToolEntity> herramientas) {
+        return herramientas.stream()
+                .filter(t -> t.getStatus() == 1)  // status 1 = disponible
+                .collect(Collectors.groupingBy(
+                        ToolEntity::getName,
+                        Collectors.counting()
+                ));
+    }
+
+
 
 }

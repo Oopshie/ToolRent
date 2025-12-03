@@ -18,16 +18,14 @@ public class KardexController {
     @Autowired
     private KardexService kardexService;
 
-    // Movimientos por herramienta — DEVUELVE DTO
     @GetMapping("/tool/{toolId}")
-    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE')")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<List<KardexDTO>> getByTool(@PathVariable Long toolId) {
         return ResponseEntity.ok(kardexService.getByTool(toolId));
     }
 
-    // Movimientos por rango de fechas — DEVUELVE DTO
     @GetMapping("/date-range")
-    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE')")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<List<KardexDTO>> getByDateRange(
             @RequestParam String from,
             @RequestParam String to
@@ -35,9 +33,8 @@ public class KardexController {
         return ResponseEntity.ok(kardexService.getByDateRange(from, to));
     }
 
-    // TODOS los movimientos — DEVUELVE DTO
     @GetMapping("/all")
-    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE')")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<List<KardexDTO>> getAll() {
         return ResponseEntity.ok(kardexService.getAllMovements());
     }

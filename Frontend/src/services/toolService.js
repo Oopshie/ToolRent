@@ -41,5 +41,4 @@ const checkDuplicate = (name, category) => {
 }
 
 
-
 export default { getAll, getAvailable, create, get, update, remove, checkDuplicate }; 

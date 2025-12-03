@@ -67,16 +67,19 @@ public class RentController {
     }
 
     @GetMapping("/report/active")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public List<RentEntity> getAllRentsForReport() {
         return rentService.getAll();
     }
 
     @GetMapping("/report/delayed")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public List<RentEntity> getAllRentsForDelayedReport() {
         return rentService.getAll();
     }
 
     @GetMapping("/report/tools")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public List<RentEntity> getAllRentsForToolsReport() {
         return rentService.getAll();
     }

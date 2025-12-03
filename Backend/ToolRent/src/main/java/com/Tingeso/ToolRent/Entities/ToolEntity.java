@@ -23,4 +23,6 @@ public class ToolEntity {
     private Integer replacementValue;
     private int status; // Available = 1, Lent = 2, Under repair = 3, Decommissioned = 4
 
+    @Transient
+    private Integer stock;
 }

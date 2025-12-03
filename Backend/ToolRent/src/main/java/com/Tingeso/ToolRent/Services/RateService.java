@@ -23,7 +23,6 @@ public class RateService {
         return rateRepository.save(rate);
     }
 
-    //CRUD
     public RateEntity addRate(RateEntity rate) {
         return rateRepository.save(rate);
     }

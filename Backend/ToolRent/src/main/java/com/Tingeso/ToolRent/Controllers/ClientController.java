@@ -52,7 +52,7 @@ public class ClientController {
         return ResponseEntity.ok(clientUpdated);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> deleteClientById(@PathVariable Long id) throws Exception {
         var isDeleted = clientService.deleteClient(id);

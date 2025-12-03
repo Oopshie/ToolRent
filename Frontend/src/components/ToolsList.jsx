@@ -15,6 +15,8 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
+// ...imports que ya tienes
+
 const ToolsList = () => {
   const [tools, setTools] = useState([]);
   const navigate = useNavigate();
@@ -63,7 +65,6 @@ const ToolsList = () => {
 
   return (
     <div style={{ padding: "20px" }}>
-
       {/* Título */}
       <h2
         style={{
@@ -99,8 +100,8 @@ const ToolsList = () => {
                 color: "white",
                 "&:hover": { backgroundColor: "#8B5F47" },
                 borderRadius: "8px",
-                paddingX: "18px",
-                paddingY: "8px",
+                px: "18px",
+                py: "8px",
                 fontWeight: "600",
               }}
               startIcon={<PersonAddIcon />}
@@ -111,7 +112,7 @@ const ToolsList = () => {
         </div>
       )}
 
-      {/* TABLA */}
+      {/* Tabla */}
       <TableContainer
         component={Paper}
         sx={{
@@ -121,11 +122,16 @@ const ToolsList = () => {
         }}
       >
         <Table size="small">
-
-          {/* Encabezado vino */}
           <TableHead>
             <TableRow>
-              {["Nombre", "Categoría", "Valor Reemplazo", "Estado", isAdmin ? "Acciones" : ""]
+              {[
+                "Nombre",
+                "Categoría",
+                "Valor Reemplazo",
+                "Stock",
+                "Estado",
+                isAdmin ? "Acciones" : "",
+              ]
                 .filter(Boolean)
                 .map((title, index, array) => (
                   <TableCell
@@ -137,9 +143,14 @@ const ToolsList = () => {
                       fontSize: "14px",
                       padding: "10px",
                       borderTopLeftRadius: index === 0 ? "20px" : "0",
-                      borderTopRightRadius: index === array.length - 1 ? "20px" : "0",
+                      borderTopRightRadius:
+                        index === array.length - 1 ? "20px" : "0",
                     }}
-                    align={title.includes("Valor") || title === "Estado" ? "right" : "left"}
+                    align={
+                      ["Valor Reemplazo", "Stock", "Estado"].includes(title)
+                        ? "right"
+                        : "left"
+                    }
                   >
                     {title}
                   </TableCell>
@@ -147,7 +158,6 @@ const ToolsList = () => {
             </TableRow>
           </TableHead>
 
-          {/* Cuerpo */}
           <TableBody>
             {tools.map((tool) => (
               <TableRow key={tool.id}>
@@ -156,6 +166,8 @@ const ToolsList = () => {
 
                 <TableCell align="right">{tool.replacementValue}</TableCell>
 
+                <TableCell align="right">{tool.stock}</TableCell>
+                
                 <TableCell
                   align="right"
                   style={{

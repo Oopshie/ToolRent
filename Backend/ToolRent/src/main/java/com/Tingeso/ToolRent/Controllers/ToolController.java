@@ -108,7 +108,7 @@ public class ToolController {
             System.out.println("replacementChanged = " + replacementChanged);
 
 
-            // 1️⃣ Si cambió replacementValue → actualizar todo el grupo ANTES de actualizar esta herramienta
+            // Si cambió replacementValue, Actualizar el grupo ANTES de actualizar esta herramienta
             if (replacementChanged) {
                 toolService.updateToolGroupValues(
                         existing.getName(),        // Usar los valores ANTIGUOS (correctos)
@@ -117,14 +117,14 @@ public class ToolController {
                 );
             }
 
-            // 3️⃣ Cambió el estado → actualizar estado + Kardex
+            // Cambió el estado actualizar estado + Kardex
             if (statusChanged) {
                 if (auth == null) return ResponseEntity.badRequest().build();
                 String employeeName = extractEmployeeName(auth);
                 toolService.updateToolStatus(id, tool.getStatus(), employeeName);
             }
 
-            // 2️⃣ Ahora actualizar esta herramienta (nombre/categoría/valor)
+            //Ahora actualizar esta herramienta (nombre/categoría/valor)
             ToolEntity saved = toolService.updateToolFields(tool);
             return ResponseEntity.ok(saved);
 
