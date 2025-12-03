@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.Normalizer;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ToolService {
@@ -192,6 +193,20 @@ public class ToolService {
         }
 
         toolRepository.saveAll(tools);
+    }
+
+    /**
+     * Calcula cuántas herramientas disponibles (status == 1) hay por cada nombre.
+     * @param herramientas Lista de herramientas a procesar
+     * @return Map con nombre de herramienta como clave y cantidad disponible como valor
+     */
+    public Map<String, Long> calcularDisponiblesPorNombre(List<ToolEntity> herramientas) {
+        return herramientas.stream()
+                .filter(t -> t.getStatus() == 1)  // status 1 = disponible
+                .collect(Collectors.groupingBy(
+                        ToolEntity::getName,
+                        Collectors.counting()
+                ));
     }
 
 }
