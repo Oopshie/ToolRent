@@ -133,8 +133,8 @@ class ToolServiceTest {
         Map<String, Long> resultado = toolService.calcularDisponiblesPorNombre(herramientas);
 
         // Then
-        assertEquals(2L, resultado.get("martillo").longValue());
-        assertEquals(1L, resultado.get("destornillador").longValue());
+        assertEquals(2L, resultado.get("martillo"));
+        assertEquals(1L, resultado.get("destornillador"));
         assertFalse(resultado.containsKey("taladro"));
     }
 }
